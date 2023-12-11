@@ -53,6 +53,9 @@ class TestpluginAudioProcessor : public juce::AudioProcessor {
   void getStateInformation(juce::MemoryBlock &destData) override;
   void setStateInformation(const void *data, int sizeInBytes) override;
 
+  static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+  juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout()};
+
  private:
  noi::Filter::Biquad lpf = noi::Filter::Biquad("LPF", 500, 0.707);
 //  std::array<noi::Filter::LPF, 2> lpf = {noi::Filter::LPF(8000), noi::Filter::LPF(8000)};

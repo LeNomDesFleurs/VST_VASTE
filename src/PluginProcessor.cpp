@@ -146,13 +146,26 @@ void TestpluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   }
 }
 
+
+juce::AudioProcessorValueTreeState::ParameterLayout TestpluginAudioProcessor::createParameterLayout(){
+
+juce::AudioProcessorValueTreeState::ParameterLayout layout;
+
+layout.add(std::make_unique<juce::AudioParameterFloat>("FrequencyCutoff", "FrequencyCutoff",
+juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), 500.f));
+
+return layout;
+}
+
+
 //==============================================================================
 bool TestpluginAudioProcessor::hasEditor() const {
   return true;  // (change this to false if you choose to not supply an editor)
 }
 
 juce::AudioProcessorEditor *TestpluginAudioProcessor::createEditor() {
-  return new TestpluginAudioProcessorEditor(*this);
+  // return new TestpluginAudioProcessorEditor(*this);
+  return new GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
