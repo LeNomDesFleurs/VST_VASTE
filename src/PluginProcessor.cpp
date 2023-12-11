@@ -125,6 +125,9 @@ void TestpluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   // This is here to avoid people getting screaming feedback
   // when they first compile a plugin, but obviously you don't need to keep
   // this code if your algorithm always overwrites all the output channels.
+  filterSettings = getSettings(apvts);
+  lpf.setParam(filterSettings.frequencycutoff, filterSettings.Q);
+
   for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     buffer.clear(i, 0, buffer.getNumSamples());
 
@@ -146,6 +149,14 @@ void TestpluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   }
 }
 
+Settings getSettings(juce::AudioProcessorValueTreeState& apvts){
+  Settings settings;
+
+  settings.frequencycutoff = apvts.getRawParameterValue("FrequencyCutoff")->load();
+  settings.Q = apvts.getRawParameterValue("Q")->load();
+
+  return settings;
+}
 
 juce::AudioProcessorValueTreeState::ParameterLayout TestpluginAudioProcessor::createParameterLayout(){
 
@@ -153,6 +164,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout layout;
 
 layout.add(std::make_unique<juce::AudioParameterFloat>("FrequencyCutoff", "FrequencyCutoff",
 juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), 500.f));
+layout.add(std::make_unique<juce::AudioParameterFloat>("Q", "Q", juce::NormalisableRange<float>(0.5, 20.f, 1.f, 1.f), 0.707));
 
 return layout;
 }

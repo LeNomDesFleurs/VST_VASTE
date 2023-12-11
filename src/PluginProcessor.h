@@ -14,6 +14,13 @@
 //==============================================================================
 /**
  */
+struct Settings{
+  float frequencycutoff{0}, Q{0};
+
+};
+
+Settings getSettings(juce::AudioProcessorValueTreeState& apvts);
+
 class TestpluginAudioProcessor : public juce::AudioProcessor {
  public:
   //==============================================================================
@@ -57,8 +64,9 @@ class TestpluginAudioProcessor : public juce::AudioProcessor {
   juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout()};
 
  private:
- noi::Filter::Biquad lpf = noi::Filter::Biquad("LPF", 500, 0.707);
-//  std::array<noi::Filter::LPF, 2> lpf = {noi::Filter::LPF(8000), noi::Filter::LPF(8000)};
-  //==============================================================================
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TestpluginAudioProcessor)
+   Settings filterSettings;
+   noi::Filter::Biquad lpf = noi::Filter::Biquad("LPF", 500, 0.707);
+   //  std::array<noi::Filter::LPF, 2> lpf = {noi::Filter::LPF(8000), noi::Filter::LPF(8000)};
+   //==============================================================================
+   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TestpluginAudioProcessor)
 };
