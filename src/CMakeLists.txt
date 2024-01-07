@@ -60,10 +60,12 @@ target_compile_definitions(VASTE
     # JUCE_DISPLAY_SPLASH_SCREEN=0 #if your plugin is distributed with GPL license or paid
 )
 
-juce_add_binary_data(JuceLogoBinary
+juce_add_binary_data(AssetsBinary
 SOURCES 
 ${CMAKE_SOURCE_DIR}/assets/juce-logo.svg
+${CMAKE_SOURCE_DIR}/assets/recursive.ttf
 )
+
 
 target_sources(VASTE PRIVATE
     PluginEditor.cpp
@@ -72,7 +74,7 @@ target_sources(VASTE PRIVATE
 )
 
 target_link_libraries(VASTE PUBLIC
-JuceLogoBinary
+AssetsBinary
 juce::juce_audio_basics
 juce::juce_audio_devices
 juce::juce_audio_formats

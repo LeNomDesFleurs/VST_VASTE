@@ -14,6 +14,11 @@
 
 #include "Component/XyPad.h"
 
+struct CustomRotarySlider : juce::Slider{
+  CustomRotarySlider() : juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag, 
+  juce::Slider::TextEntryBoxPosition::NoTextBox){}
+};
+
 //==============================================================================
 /**
  */
@@ -29,8 +34,16 @@ class TestpluginAudioProcessorEditor : public juce::AudioProcessorEditor {
  private:
   // This reference is provided as a quick way for your editor to
   // access the processor object that created it.
-  TestpluginAudioProcessor &audioProcessor;
-  std::unique_ptr<juce::Drawable> svgimg;
-  Gui::XyPad xyPad;
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TestpluginAudioProcessorEditor)
+
+   juce::Label testlabel;
+
+   TestpluginAudioProcessor &audioProcessor;
+   std::unique_ptr<juce::Drawable> svgimg;
+   Gui::XyPad xyPad;
+
+   CustomRotarySlider frequencyCutoffKnob, QKnob;
+
+   std::vector<juce::Component *> getComps();
+
+   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TestpluginAudioProcessorEditor)
 };

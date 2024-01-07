@@ -14,6 +14,18 @@
 TestpluginAudioProcessorEditor::TestpluginAudioProcessorEditor(
     TestpluginAudioProcessor &p)
     : AudioProcessorEditor(&p), audioProcessor(p) {
+
+      for (auto* component: getComps()){
+        addAndMakeVisible(component);
+      }
+
+Typeface::Ptr recursive = Typeface::createSystemTypefaceFor(BinaryData::recursive_ttf, 
+                                                            BinaryData::recursive_ttfSize);
+juce::Font fontrecursive(recursive);
+testlabel.setFont(fontrecursive);
+testlabel.setText("The quick brown fox jumps over the lazy dogs", dontSendNotification);
+
+// juce::LookAndFeel::setDefaultSansSerifTypeface(recursive);
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
   setSize(400, 300);
@@ -22,6 +34,7 @@ TestpluginAudioProcessorEditor::TestpluginAudioProcessorEditor(
                                                BinaryData::jucelogo_svgSize);
   
   // addAndMakeVisible(xyPad);
+  addAndMakeVisible(testlabel);
 }
 
 TestpluginAudioProcessorEditor::~TestpluginAudioProcessorEditor() {}
@@ -32,13 +45,18 @@ void TestpluginAudioProcessorEditor::paint(juce::Graphics &g) {
   // solid colour)
   g.fillAll(
       getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+
+  
+
   svgimg->drawWithin(g, getLocalBounds().toFloat(),
                      juce::Justification::centred, 1);
 
   g.setColour(juce::Colours::black);
-  g.setFont(30.0f);
-  g.drawFittedText("Hello World!", getLocalBounds(),
-                   juce::Justification::centred, 1);
+  // g.setFont(30.0f);
+  // g.drawFittedText("Hello World!", getLocalBounds(),
+  //                  juce::Justification::centred, 1);
+
+  
 }
 
 void TestpluginAudioProcessorEditor::resized() {
@@ -47,5 +65,13 @@ void TestpluginAudioProcessorEditor::resized() {
 const auto container = getLocalBounds().reduced(20);
     auto bounds = container;
       // xyPad.setBounds(bounds.removeFromLeft(container.proportionOfWidth(0.5)).reduced(20));
+    testlabel.setBounds(bounds);
+}
 
+std::vector<juce::Component*> TestpluginAudioProcessorEditor::getComps(){
+
+  return {
+    & frequencyCutoffKnob,
+    & QKnob
+  };
 }
