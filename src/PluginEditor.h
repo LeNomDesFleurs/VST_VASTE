@@ -22,7 +22,7 @@ struct CustomRotarySlider : juce::Slider{
 //==============================================================================
 /**
  */
-class TestpluginAudioProcessorEditor : public juce::AudioProcessorEditor {
+class TestpluginAudioProcessorEditor : public juce::AudioProcessorEditor, public juce::Button::Listener{
  public:
   TestpluginAudioProcessorEditor(TestpluginAudioProcessor &);
   ~TestpluginAudioProcessorEditor() override;
