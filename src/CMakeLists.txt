@@ -57,6 +57,7 @@ target_compile_definitions(VASTE
     JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_plugin` call
     JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_plugin` call
     JUCE_VST3_CAN_REPLACE_VST2=0
+    JUCE_PLUGINHOST_VST3=1 # let it scan for vst3 and access the plugin-processor
     # JUCE_DISPLAY_SPLASH_SCREEN=0 #if your plugin is distributed with GPL license or paid
 )
 
@@ -68,9 +69,9 @@ ${CMAKE_SOURCE_DIR}/assets/recursive.ttf
 
 
 target_sources(VASTE PRIVATE
-    PluginEditor.cpp
+    # PluginEditor.cpp
     PluginProcessor.cpp
-    Component/XyPad.cpp
+    # Component/XyPad.cpp
 )
 
 target_link_libraries(VASTE PUBLIC

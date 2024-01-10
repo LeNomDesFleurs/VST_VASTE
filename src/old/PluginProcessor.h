@@ -21,7 +21,8 @@ struct Settings{
 
 Settings getSettings(juce::AudioProcessorValueTreeState& apvts);
 
-class TestpluginAudioProcessor : public juce::AudioProcessor {
+class TestpluginAudioProcessor : public juce::AudioProcessor, 
+public juce::ComboBox::Listener{
  public:
   //==============================================================================
   TestpluginAudioProcessor();
@@ -63,10 +64,19 @@ class TestpluginAudioProcessor : public juce::AudioProcessor {
   static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
   juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout()};
 
+  void comboBoxChanged(ComboBox* comboBox) override;
+
  private:
-   Settings filterSettings;
-   noi::Filter::Biquad lpf = noi::Filter::Biquad("LPF", 500, 0.707);
-   //  std::array<noi::Filter::LPF, 2> lpf = {noi::Filter::LPF(8000), noi::Filter::LPF(8000)};
-   //==============================================================================
-   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TestpluginAudioProcessor)
+
+  juce::AudioPluginFormatManager pluginFormatManager;
+  juce::ComboBox pluginComboBox;
+
+  std::unique_ptr<AudioPluginInstance> hostedPlugin;
+
+  Settings filterSettings;
+
+  noi::Filter::Biquad lpf = noi::Filter::Biquad("LPF", 500, 0.707);
+  //  std::array<noi::Filter::LPF, 2> lpf = {noi::Filter::LPF(8000), noi::Filter::LPF(8000)};
+  //==============================================================================
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TestpluginAudioProcessor)
 };
